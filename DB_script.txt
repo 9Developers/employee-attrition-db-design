@@ -1,0 +1,138 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`employee_Experience`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`employee_Experience` (
+  `ExperienceID` INT NOT NULL,
+  `NumCompaniesWorked` INT NULL,
+  `TotalWorkYears` INT NULL,
+  `YearAtCompany` INT NULL,
+  `YearsInCurrentRole` INT NULL,
+  PRIMARY KEY (`ExperienceID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`employee_Performance`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`employee_Performance` (
+  `PerformanceID` INT NOT NULL,
+  `PerformanceRating` INT NULL,
+  `PercentSalaryHike` INT NULL,
+  `JobInvolvement` INT NULL,
+  `TrainingTimeLastYear` INT NULL,
+  `OverTime` VARCHAR(45) NULL,
+  `YearsSinceLastPromotion` INT NULL,
+  PRIMARY KEY (`PerformanceID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Employee_chargeability`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Employee_chargeability` (
+  `ChargeabilityID` INT NOT NULL,
+  `HourlyRate` INT NULL,
+  `DailyRate` INT NULL,
+  `MonthlyRate` INT NULL,
+  `MonthlyIncome` INT NULL,
+  PRIMARY KEY (`ChargeabilityID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`employee_Relationship`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`employee_Relationship` (
+  `RelatioshipID` INT NOT NULL,
+  `WorkLifeBalance` INT NULL,
+  `DistanceFromHome` INT NULL,
+  `JobSatisfaction` INT NULL,
+  `RelationshipSatisfaction` INT NULL,
+  `EmployeeSatisfaction` INT NULL,
+  `YearWithCurrentManager` INT NULL,
+  `Attrition` VARCHAR(45) NULL,
+  PRIMARY KEY (`RelatioshipID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Job_Details`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Job_Details` (
+  `JobID` INT NOT NULL,
+  `JobLevel` INT NULL,
+  `JobRole` VARCHAR(45) NULL,
+  `Department` VARCHAR(45) NULL,
+  `BusinessTravel` VARCHAR(45) NULL,
+  `StockOptionsLevel` INT NULL,
+  PRIMARY KEY (`JobID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`EmployeeDetails`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`EmployeeDetails` (
+  `EmployeeID` INT NOT NULL,
+  `Age` INT NULL,
+  `MartiaStatus` VARCHAR(45) NULL,
+  `Education` INT NULL,
+  `EducationField` VARCHAR(45) NULL,
+  `employee_Experience_ExperienceID` INT NOT NULL,
+  `employee_Performance_PerformanceID` INT NOT NULL,
+  `Employee_chargeability_ChargeabilityID` INT NOT NULL,
+  `employee_Relationship_RelatioshipID` INT NOT NULL,
+  `Job_Details_JobID` INT NOT NULL,
+  PRIMARY KEY (`EmployeeID`),
+  INDEX `fk_EmployeeDetails_employee_Experience_idx` (`employee_Experience_ExperienceID` ASC) VISIBLE,
+  INDEX `fk_EmployeeDetails_employee_Performance1_idx` (`employee_Performance_PerformanceID` ASC) VISIBLE,
+  INDEX `fk_EmployeeDetails_Employee_chargeability1_idx` (`Employee_chargeability_ChargeabilityID` ASC) VISIBLE,
+  INDEX `fk_EmployeeDetails_employee_Relationship1_idx` (`employee_Relationship_RelatioshipID` ASC) VISIBLE,
+  INDEX `fk_EmployeeDetails_Job_Details1_idx` (`Job_Details_JobID` ASC) VISIBLE,
+  CONSTRAINT `fk_EmployeeDetails_employee_Experience`
+    FOREIGN KEY (`employee_Experience_ExperienceID`)
+    REFERENCES `mydb`.`employee_Experience` (`ExperienceID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EmployeeDetails_employee_Performance1`
+    FOREIGN KEY (`employee_Performance_PerformanceID`)
+    REFERENCES `mydb`.`employee_Performance` (`PerformanceID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EmployeeDetails_Employee_chargeability1`
+    FOREIGN KEY (`Employee_chargeability_ChargeabilityID`)
+    REFERENCES `mydb`.`Employee_chargeability` (`ChargeabilityID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EmployeeDetails_employee_Relationship1`
+    FOREIGN KEY (`employee_Relationship_RelatioshipID`)
+    REFERENCES `mydb`.`employee_Relationship` (`RelatioshipID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_EmployeeDetails_Job_Details1`
+    FOREIGN KEY (`Job_Details_JobID`)
+    REFERENCES `mydb`.`Job_Details` (`JobID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
